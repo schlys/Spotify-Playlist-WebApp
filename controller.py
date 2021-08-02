@@ -3,12 +3,10 @@ from playlists import genrePlaylist, currTrackPlaylist, artistPlaylist, trackPla
 import os, requests, json, sched, time
 
 #Add your client ID
-CLIENT_ID = '93ca3d2aa00945ba9e5b63495e0556f1'
-#CLIENT_ID = os.environ.get('SPOTIPY_CLIENT_ID')
+CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
 
 #aDD YOUR CLIENT SECRET FROM SPOTIFY
-CLIENT_SECRET = '7b4af38e5d5f4754a74bbfcb057684ca'
-#CLIENT_SECRET = os.environ.get('SPOTIPY_CLIENT_SECRET')
+CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
 
 #Port and callback url can be changed or ledt to localhost:5000
 PORT = '5000'
