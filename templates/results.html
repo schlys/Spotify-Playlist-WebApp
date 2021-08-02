@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body style="font-family: Arial, Helvetica, sans-serif;">
+        
+        <div class="list_top">
+            <form action="{{ url_for('playlists') }}" method="GET">
+                <button class="home" style="margin-top: 15px;">Go Back</button>
+            </form>
+            <button class="playlist_button" onclick="add()">Add Playlist to Spotify</button>
+        </div>
+        <div id="descrip" style="margin-top: 65px;"></div>
+        <div style="margin-top: 10px">
+            <div id="playlist" style="margin-top: 70px; border-bottom:1px black;"></div>
+        </div>
+        
+
+        <script type="text/javascript" src="{{url_for('static', filename='playlist.js')}}"></script>
+    </body>
+</html>

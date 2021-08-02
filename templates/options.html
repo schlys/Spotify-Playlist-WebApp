@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+
+    <body style="font-family: Arial, Helvetica, sans-serif;">
+        <div class="row top">
+            <div >
+                <form action="{{ url_for('home') }}" method="GET">
+                    <button class="home">Home</button>
+                </form>
+            </div>
+            <div style="width: 60%; margin-left: 15%;" >
+                
+                <input type="image" onclick="ye()" class="ye" hspace="10px" src="https://images-na.ssl-images-amazon.com/images/I/61vUslTEbFL._SL1200_.jpg">
+                <br>"<span id="quote">{{ quote }}</span>"
+                <br><strong>-Kanye West</strong>
+            
+            </div>
+            <br style="clear: both;">
+        </div>
+
+        <div class="middle row">
+            <div style="margin-bottom: 10px;">
+                <label for="size">Generate a playlist with size between 20 and 200 tracks based on the options below. <strong>SIZE: </strong></label>
+                <input type="text" id="size" name="size" value="100">
+            </div>
+            <div id="options">
+                <div>
+                    <input type="text" id="song" class="in" placeholder="enter a song">
+                    <input type="text" id="artist" class="in" placeholder="enter an artist">
+                </div>
+                <div> 
+                    <button onclick="playlist('random')" class="in choice">random playlist</button>
+                    <button onclick="playlist('curr_track')" class="in choice">current playing</button>
+            
+                </div>
+                <div>
+                <input type="text" id="word" class="in" placeholder="enter a genre" style="padding: 10px 280px;">
+                </div>
+            </div>
+            <p id="status" class="status"></p>
+        </div>
+
+        <div class="row bottom">
+            <div class="column">
+                <img id="cover" class="track_pic" src="" alt="cover" hspace="10px" style="display:none;float: left;width:75px;height:75px;margin-left: 30px;">
+                <p>
+                    <a id="link" href="" target="_blank" class="track_link"><strong id="name"></strong><br></a>
+                    <span id="artists"><strong>Currently playing tracks will show up here.</strong></span>
+                </p>
+            </div>
+            <div class="column" id="wrapper">
+                <input type="image" id="skip" onclick="player(this.id, '0')" class="button" style="margin-right: 50px" src="https://cdn3.iconfinder.com/data/icons/line/36/skip_forward-256.png"/>
+                <input type="image" name="pause" id="pause_play" onclick="player(this.id, '0')" class="button" src="https://cdn3.iconfinder.com/data/icons/line/36/pause-256.png"/>
+                <input type="image" id="skip_back" onclick="player(this.id, '1')" class="button" src="https://cdn3.iconfinder.com/data/icons/line/36/skip_back-512.png"/>
+            </div>
+        </div>
+       
+        <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
+    </body>
+</html>
