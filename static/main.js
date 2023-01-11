@@ -97,7 +97,7 @@ function playlist(option) {
 //         }
 //         var option = ""
 //         var id = event.target.id
-        
+
 //         if (id == "skip") {
 //             option = "0"
 //         } else if (id == "skip_back") {
@@ -147,13 +147,4 @@ function player (id, option) {
 }
 
 //---------------------------------------------------------------------------------------------------------------
-//generates a kanye quote
 
-function ye() {
-    $.getJSON("/quote", 
-        function(data) {
-            document.getElementById("quote").innerHTML = data.kanye
-        })
-}
-
-//----------------------------------------------------------------------------------------------------------------

@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, jsonify, Response, url_for
-import controller, kanye, requests, json, flask, webbrowser
+from flask import Flask, render_template, request, redirect, jsonify, url_for
+import controller, flask, requests, json
 
 app = Flask(__name__)
 
@@ -10,28 +10,27 @@ def home():
     if request.method == 'POST':
            response = controller.getUser()
            return redirect(response)
-    else:    
-        return render_template('home.html', ye = kanye.quote())
+    else:
+        return render_template('home.html')
 
 
 
-@app.route('/callback/')
+@app.route('/callback/', methods=['POST', 'GET'])
 def options():
     controller.getUserToken(request.args['code'])
     return redirect(flask.url_for('playlists'))
-    
 
 
 @app.route('/update/', methods=['POST', 'GET'])
 def update():
     track = controller.getCurrentTrack()
     if track:
-        return jsonify(none='0', 
-            link=track['link'], 
-            name=track['name'], 
-            artists=track['artists'], 
-            image=track['image'], 
-            album=track['album'], 
+        return jsonify(none='0',
+            link=track['link'],
+            name=track['name'],
+            artists=track['artists'],
+            image=track['image'],
+            album=track['album'],
             playing=track['playing']
             )
     return jsonify(none='1')
@@ -50,15 +49,10 @@ def player():
 def playlists():
     controller.clearList()
     if request.method == 'GET':
-        return render_template('options.html', quote = kanye.quote())
+        return render_template('options.html')
     elif request.method == 'POST':
         return jsonify(cleared='1')
 
-
-
-@app.route('/quote/', methods=['POST', 'GET'])
-def quote():
-    return jsonify(kanye=str(kanye.quote()))
 
 
 
@@ -98,4 +92,3 @@ def add_playlist():
 
 if __name__ == '__main__':
       app.run()
-    

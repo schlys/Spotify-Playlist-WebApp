@@ -13,13 +13,7 @@
                     <button class="home">Home</button>
                 </form>
             </div>
-            <div style="width: 60%; margin-left: 15%;" >
-                
-                <input type="image" onclick="ye()" class="ye" hspace="10px" src="https://images-na.ssl-images-amazon.com/images/I/61vUslTEbFL._SL1200_.jpg">
-                <br>"<span id="quote">{{ quote }}</span>"
-                <br><strong>-Kanye West</strong>
-            
-            </div>
+
             <br style="clear: both;">
         </div>
 
@@ -33,10 +27,10 @@
                     <input type="text" id="song" class="in" placeholder="enter a song">
                     <input type="text" id="artist" class="in" placeholder="enter an artist">
                 </div>
-                <div> 
+                <div>
                     <button onclick="playlist('random')" class="in choice">random playlist</button>
                     <button onclick="playlist('curr_track')" class="in choice">current playing</button>
-            
+
                 </div>
                 <div>
                 <input type="text" id="word" class="in" placeholder="enter a genre" style="padding: 10px 280px;">
@@ -59,7 +53,7 @@
                 <input type="image" id="skip_back" onclick="player(this.id, '1')" class="button" src="https://cdn3.iconfinder.com/data/icons/line/36/skip_back-512.png"/>
             </div>
         </div>
-       
+
         <script type="text/javascript" src="{{url_for('static', filename='main.js')}}"></script>
     </body>
 </html>

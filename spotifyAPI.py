@@ -2,7 +2,7 @@ import base64, json, requests
 
 SPOTIFY_URL_AUTH = 'https://accounts.spotify.com/authorize/?'
 SPOTIFY_URL_TOKEN = 'https://accounts.spotify.com/api/token/'
-RESPONSE_TYPE = 'code'   
+RESPONSE_TYPE = 'code'
 HEADER = 'application/x-www-form-urlencoded'
 REFRESH_TOKEN = ''
 PLAYER_URLS = ['https://api.spotify.com/v1/me/player/next',
@@ -12,7 +12,7 @@ PLAYER_URLS = ['https://api.spotify.com/v1/me/player/next',
             ]
 
 def getAuth(client_id, redirect_uri, scope):
-    data = f"{SPOTIFY_URL_AUTH}client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}&show_dialog=true" 
+    data = f"{SPOTIFY_URL_AUTH}client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}&show_dialog=true"
     return data
 
 def getToken(code, client_id, client_secret, redirect_uri):
@@ -21,10 +21,10 @@ def getToken(code, client_id, client_secret, redirect_uri):
         'code' : code,
         'redirect_uri': redirect_uri
     }
-        
+
     client_creds = f"{client_id}:{client_secret}"
     client_creds_b64 = base64.b64encode(client_creds.encode())
-   
+
     headers = {
         'Content-Type' : HEADER,
         'Authorization' : f"Basic {client_creds_b64.decode()}"
@@ -34,8 +34,9 @@ def getToken(code, client_id, client_secret, redirect_uri):
 
 
     return handleToken(json.loads(post.text))
-    
+
 def handleToken(response):
+    global REFRESH_TOKEN
     auth_head =  {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
@@ -70,7 +71,7 @@ def getCurrTrack(head):
             'playing': resp_json['is_playing']
         }
         return info
-    return None 
+    return None
 
 def getTrackOrArtist(text, head, kind):
     response = requests.get(f"https://api.spotify.com/v1/search?q={text}&type={kind}&market=US", headers=head)
@@ -199,6 +200,6 @@ def makePlaylist(name, track_uris, head):
 
 #     post_refresh = requests.post(SPOTIFY_URL_TOKEN, data=body, headers=HEADER)
 #     p_back = json.dumps(post_refresh.text)
-    
+
 #     return handleToken(p_back)
 

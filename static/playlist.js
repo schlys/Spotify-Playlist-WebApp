@@ -2,7 +2,7 @@
 // generates the playlist on the results screen
 
 function onload() {
-    $.getJSON("/get_playlist", 
+    $.getJSON("/get_playlist",
         function(data) {
             var display = data.display
             var type = display.type
@@ -42,7 +42,7 @@ function onload() {
                 `
                 document.getElementById('playlist').appendChild(div)
             }
-            
+
         })
 }
 window.addEventListener("load", onload, false)
@@ -54,6 +54,9 @@ function add() {
     $.ajax ({
         type: "post",
         url: "/add_playlist",
-        data: {}
+        data: {},
+        success: function() {
+            document.getElementById('success').innerHTML = '<strong style="color:green">Playlist Added to Spotify</strong>'
+        }
     })
 }
