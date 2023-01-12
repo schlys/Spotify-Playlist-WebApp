@@ -3,20 +3,18 @@ from playlists import genrePlaylist, currTrackPlaylist, artistPlaylist, trackPla
 import os
 
 #Add your client ID
-CLIENT_ID = os.environ.get('SPOTIFY_CLIENT_ID')
-#CLIENT_ID = '93ca3d2aa00945ba9e5b63495e0556f1'
+CLIENT_ID = os.environ.get('CLIENT_ID')
 
 #aDD YOUR CLIENT SECRET FROM SPOTIFY
-CLIENT_SECRET = os.environ.get('SPOTIFY_CLIENT_SECRET')
-#CLIENT_SECRET = '7b4af38e5d5f4754a74bbfcb057684ca'
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
 
 #Port and callback url can be changed or left to localhost:5000
 PORT = '5000'
-CALLBACK_URL = 'http://samch.pythonanywhere.com/callback/'
-#CALLBACK_URL = 'http://127.0.0.1:5000/callback/'
+CALLBACK_URL = os.environ.get('CALLBACK_URL')
 
 #Add needed scope from spotify user
 SCOPE = 'user-read-private user-read-email user-library-modify playlist-read-private user-library-read playlist-read-collaborative streaming user-read-currently-playing user-follow-modify playlist-modify-private user-top-read user-read-recently-played playlist-modify-public user-read-playback-state'
+
 #token_data will hold authentication header with access code, the allowed scopes, and the refresh countdown
 TOKEN_DATA = []
 
