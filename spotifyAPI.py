@@ -176,8 +176,8 @@ def makePlaylist(name, track_uris, head):
     user_id = user_resp.json()['id']
     create = requests.post(f"https://api.spotify.com/v1/users/{user_id}/playlists", data = json.dumps({
         'name': f"playlist based on {name}",
-        'public': True,
-        'description': 'created by http://samch.pythonanywhere.com'
+        'description': 'created by http://samch.pythonanywhere.com',
+        'public': True
     }), headers = head)
     playlist_id = create.json()['id']
     if len(track_uris) < 100:
