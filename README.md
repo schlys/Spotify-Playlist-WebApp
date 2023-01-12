@@ -1,4 +1,4 @@
 # Spotify-Playlist-WebApp
 
 
-C:\> py3 -m venv ./venv
+py -3 -m venv venv
