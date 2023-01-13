@@ -1,5 +1,5 @@
-from spotifyAPI import getAuth, getToken, getCurrTrack, player
-from playlists import genrePlaylist, currTrackPlaylist, artistPlaylist, trackPlaylist, randomPlaylist, getPlaylist, playlistReset, addToSpotify
+import spotifyAPI as api
+import playlists as p
 import os
 
 #Add your client ID
@@ -13,25 +13,25 @@ PORT = '5000'
 CALLBACK_URL = os.environ.get('CALLBACK_URL')
 
 #Add needed scope from spotify user
-SCOPE = 'user-read-private user-read-email user-library-modify playlist-read-private user-library-read playlist-read-collaborative streaming user-read-currently-playing user-follow-modify playlist-modify-private user-top-read user-read-recently-played playlist-modify-public user-read-playback-state'
+SCOPE = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state playlist-modify-public playlist-modify-private'
 
 #token_data will hold authentication header with access code, the allowed scopes, and the refresh countdown
 TOKEN_DATA = []
 
 PLAYLIST_OPTIONS = {
-    'curr_track': currTrackPlaylist,
-    'track': trackPlaylist,
-    'genre': genrePlaylist,
-    'artist': artistPlaylist,
-    'random': randomPlaylist
+    'curr_track': p.currTrackPlaylist,
+    'track': p.trackPlaylist,
+    'genre': p.genrePlaylist,
+    'artist': p.artistPlaylist,
+    'random': p.randomPlaylist
 }
 
 def getUser():
-    return getAuth(CLIENT_ID, CALLBACK_URL, SCOPE)
+    return api.getAuth(CLIENT_ID, CALLBACK_URL, SCOPE)
 
 def getUserToken(code):
     global TOKEN_DATA
-    TOKEN_DATA = getToken(code, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL)
+    TOKEN_DATA = api.getToken(code, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL)
 
 # def refreshToken(time):
 #     time.sleep(time)
@@ -41,20 +41,20 @@ def getAccessToken():
     return TOKEN_DATA
 
 def getCurrentTrack():
-    return getCurrTrack(TOKEN_DATA[1])
+    return api.getCurrTrack(TOKEN_DATA[1])
 
 def playback(option):
-    return player(option, TOKEN_DATA[1])
+    return api.player(option, TOKEN_DATA[1])
 
 def makePlaylist(size, option, text):
     PLAYLIST_OPTIONS[option](size, TOKEN_DATA[1], text)
 
 def getList():
-    return getPlaylist()
+    return p.getPlaylist()
 
 def clearList():
-    playlistReset()
+    p.playlistReset()
 
 def addList():
-    addToSpotify(TOKEN_DATA[1])
+    p.addToSpotify(TOKEN_DATA[1])
 
