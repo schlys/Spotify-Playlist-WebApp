@@ -69,7 +69,7 @@ def make_playlist():
         controller.makePlaylist(size, option, text)
         return jsonify({'redirect': url_for('results')})
     return None
-
+ 
 
 
 @app.route('/results/', methods=['POST', 'GET'])
@@ -88,7 +88,7 @@ def get_playlist():
 @app.route('/add_playlist/', methods=['POST', 'GET'])
 def add_playlist():
     controller.addList()
-    return jsonify(yeet='yeet')
+    return jsonify(added='')
 
 
 if __name__ == '__main__':
