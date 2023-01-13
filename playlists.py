@@ -85,7 +85,7 @@ def genrePlaylist(size, head, genre):
                 addToPlaylist(track, count, image)
                 count += 1
 
-def currTrackPlaylist(size, head, text=None):
+def currTrackPlaylist(size, head, text):
     global NAME
     track = spotifyAPI.getCurrTrack(head)
     NAME = {
@@ -122,7 +122,7 @@ def trackPlaylist(size, head, text):
         }
     playlistHelper(size, head, track['id'], track['artist_id'], .7, .05)
 
-def randomPlaylist(size, head, text=None):
+def randomPlaylist(size, head, text):
     global NAME
     words = []
     count = 1
@@ -154,14 +154,14 @@ def getPlaylist():
 
 def playlistReset():
     global PLAYLIST
-    global PLAYLIST_URIS
-    global NAME
     PLAYLIST = {'tracks': []}
-    PLAYLIST_URIS = []
-    NAME = {}
+    PLAYLIST_URIS.clear()
+    NAME.clear()
+    print(PLAYLIST)
+    print(PLAYLIST_URIS)
+    print(NAME)
 
 def addToSpotify(head):
-    global NAME
     spotifyAPI.makePlaylist(NAME['text'], PLAYLIST_URIS, head)
 
 def addToPlaylist(track, count, image):

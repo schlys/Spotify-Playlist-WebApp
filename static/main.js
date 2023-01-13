@@ -57,6 +57,11 @@ $(document).ready(function() {
             },
             error: function() {
                 document.getElementById('status').innerHTML = '<strong style="color:red">ERROR CREATING PLAYLIST</strong>'
+                $.ajax({
+                    type: 'post',
+                    url: '/playlists',
+                    data: {}
+                })
             }
         })
     })
@@ -88,42 +93,6 @@ function playlist(option) {
 //-------------------------------------------------------------------------------------------------------------
 //controls the player
 
-// $(document).ready(function() {
-//     const wrapper = document.getElementById("wrapper")
-//     wrapper.addEventListener('click', (event) => {
-//         const isButton = event.target.nodeName === 'INPUT'
-//         if (!isButton) {
-//             return
-//         }
-//         var option = ""
-//         var id = event.target.id
-
-//         if (id == "skip") {
-//             option = "0"
-//         } else if (id == "skip_back") {
-//             option = "1"
-//         } else {
-//             var button = document.getElementById("pause_play");
-//             if (button.name == "pause") {
-//                 button.name = "play";
-//                 button.src = "https://cdn3.iconfinder.com/data/icons/line/36/play-256.png";
-//                 option = "2";
-//             } else {
-//                 button.name = "pause";
-//                 button.src = "https://cdn3.iconfinder.com/data/icons/line/36/pause-256.png";
-//                 option = "3";
-//             }
-//         }
-//         $.ajax({
-//             type:"post",
-//             url: "/player",
-//             data: {
-//                 option: option
-//             }
-//         })
-//     })
-// })
-
 function player (id, option) {
     if (id == "pause_play") {
         var button = document.getElementById("pause_play");
@@ -146,5 +115,4 @@ function player (id, option) {
     })
 }
 
-//---------------------------------------------------------------------------------------------------------------
 

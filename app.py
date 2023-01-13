@@ -15,7 +15,7 @@ def home():
 
 @app.route('/callback/', methods=['POST', 'GET'])
 def options():
-    if ('error' in request.args):
+    if 'error' in request.args:
         return redirect(flask.url_for('home'))
 
     controller.getUserToken(request.args['code'])
