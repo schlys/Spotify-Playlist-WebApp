@@ -1,4 +1,4 @@
-import base64, json, requests
+import base64, json, requests, time
 
 SPOTIFY_URL_AUTH = 'https://accounts.spotify.com/authorize?'
 SPOTIFY_URL_TOKEN = 'https://accounts.spotify.com/api/token'
@@ -22,18 +22,30 @@ def getToken(code, client_id, client_secret, redirect_uri):
         'redirect_uri': redirect_uri
     }
 
-    client_creds = f"{client_id}:{client_secret}"
-    client_creds_b64 = base64.b64encode(client_creds.encode())
-
-    headers = {
-        'Content-Type' : HEADER,
-        'Authorization' : f"Basic {client_creds_b64.decode()}"
-    }
+    headers = getAuthHeaders(client_id, client_secret)
 
     post = requests.post(SPOTIFY_URL_TOKEN, params=body, headers=headers)
 
-
     return handleToken(json.loads(post.text))
+
+def refreshAuth(client_id, client_secret):
+    body = {
+        "grant_type" : "refresh_token",
+        "refresh_token" : REFRESH_TOKEN
+    }
+
+    post_refresh = requests.post(SPOTIFY_URL_TOKEN, data=body, headers=getAuthHeaders(client_id, client_secret))
+   
+    return handleToken(json.loads(post_refresh.text))
+
+def getAuthHeaders(client_id, client_secret):
+    client_creds = f"{client_id}:{client_secret}"
+    client_creds_b64 = base64.b64encode(client_creds.encode())
+
+    return {
+        'Content-Type' : HEADER,
+        'Authorization' : f"Basic {client_creds_b64.decode()}"
+    }
 
 def handleToken(response):
     global REFRESH_TOKEN
@@ -42,8 +54,11 @@ def handleToken(response):
             'Content-Type': 'application/json',
             'Authorization': "Bearer {}".format(response['access_token'])
         }
-    REFRESH_TOKEN = response['refresh_token']
-    return [response['access_token'], auth_head, response['scope'], response['expires_in']]
+    
+    if 'refresh_token' in response:
+        REFRESH_TOKEN = response['refresh_token']
+    
+    return [response['access_token'], auth_head, response['scope'], response['expires_in'] + time.time()]
 
 def getCurrTrack(head):
     response = requests.get('https://api.spotify.com/v1/me/player?market=US', headers = head)
@@ -192,15 +207,3 @@ def makePlaylist(name, track_uris, head):
 
         requests.post(f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks?uris={first_uris}", headers = head)
         requests.post(f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks?uris={second_uris}", headers = head)
-
-# def refreshAuth():
-#     body = {
-#         "grant_type" : "refresh_token",
-#         "refresh_token" : REFRESH_TOKEN
-#     }
-
-#     post_refresh = requests.post(SPOTIFY_URL_TOKEN, data=body, headers=HEADER)
-#     p_back = json.dumps(post_refresh.text)
-
-#     return handleToken(p_back)
-

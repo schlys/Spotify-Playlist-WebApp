@@ -1,6 +1,6 @@
 import spotifyAPI as api
 import playlists as p
-import os
+import os, time
 
 #Add your client ID
 CLIENT_ID = os.environ.get('CLIENT_ID')
@@ -33,9 +33,13 @@ def getUserToken(code):
     global TOKEN_DATA
     TOKEN_DATA = api.getToken(code, CLIENT_ID, CLIENT_SECRET, CALLBACK_URL)
 
-# def refreshToken(time):
-#     time.sleep(time)
-#     TOKEN_DATA = refreshAuth()
+def refreshToken():
+    global TOKEN_DATA
+    
+    #if TOKEN_DATA:
+    if TOKEN_DATA and time.time() > TOKEN_DATA[3]:
+        print('refreshing')
+        TOKEN_DATA = api.refreshAuth(CLIENT_ID, CLIENT_SECRET)
 
 def getAccessToken():
     return TOKEN_DATA

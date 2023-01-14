@@ -157,9 +157,6 @@ def playlistReset():
     PLAYLIST = {'tracks': []}
     PLAYLIST_URIS.clear()
     NAME.clear()
-    print(PLAYLIST)
-    print(PLAYLIST_URIS)
-    print(NAME)
 
 def addToSpotify(head):
     spotifyAPI.makePlaylist(NAME['text'], PLAYLIST_URIS, head)
