@@ -5,8 +5,6 @@ app = Flask(__name__)
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
-    controller.refreshToken()
-
     if request.method == 'POST':
            response = controller.getUser()
            return redirect(response)
