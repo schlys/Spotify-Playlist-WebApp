@@ -73,10 +73,8 @@ def make_playlist():
     print(f'playlist option: {option}')
     print(f'text: {text}')
 
-    if size >= 20 and size <= 200:
-        controller.makePlaylist(size, option, text)
-        return jsonify({'redirect': url_for('results')})
-    return None
+    controller.makePlaylist(size, option, text)
+    return jsonify({'redirect': url_for('results')})
  
 
 

@@ -26,37 +26,29 @@ setInterval('update_track()', 1000)
 //----------------------------------------------------------------------------------------------------------------
 //controls the playlist options
 
-$(document).ready(function() {
-    const wrapper = document.getElementById("options")
-    wrapper.addEventListener('keydown', (event) => {
-        const isCorrect = event.target.nodeName === 'INPUT'
-        if (!isCorrect || event.code != "Enter") {
-            return
-        }
-        document.getElementById('status').innerHTML = '<strong style="color:green">CREATING PLAYLIST...</strong>'
-        var option = ""
-        var id = event.target.id
+function playlist() {
+    var option = $('input[name=choices]:checked').attr('id');
+    var size = document.getElementById('size');
+    var written = document.getElementById('writtenoption');
+    var text = '';
 
-        if (id === "song") {
-            option = 'track'
-        } else if (id === "artist") {
-            option = 'artist'
-        } else {
-            option = 'genre'
-        }
+    if (written.style.visibility == 'visible') {
+        text = written.value;
+    }
+
+    if (parseInt(size) >= 20 || parseInt(size) <= 200) {
         $.ajax({
-            type:"post",
+            type: "post",
             url: "/make_playlist",
             data: {
                 option: option,
-                text: document.getElementById(id).value,
-                size: document.getElementById('size').value
+                size: size.value,
+                text: text
             },
             success: function(response) {
-                window.location.href = response.redirect
+                window.location.href = response.redirect;
             },
             error: function() {
-                document.getElementById('status').innerHTML = '<strong style="color:red">ERROR CREATING PLAYLIST</strong>'
                 $.ajax({
                     type: 'post',
                     url: '/playlists',
@@ -64,30 +56,10 @@ $(document).ready(function() {
                 })
             }
         })
-    })
-})
+    } else {
+        document.getElementById('error').innerHTML = 'Please enter a valid playlist size';
+    }
 
-function playlist(option) {
-    document.getElementById('status').innerHTML = '<strong style="color:green">CREATING PLAYLIST...</strong>'
-    $.ajax({
-        type: "post",
-        url: "/make_playlist",
-        data: {
-            option: option,
-            size: document.getElementById('size').value
-        },
-        success: function(response) {
-            window.location.href = response.redirect
-        },
-        error: function() {
-            document.getElementById('status').innerHTML = '<strong style="color:red">ERROR CREATING PLAYLIST</strong>'
-            $.ajax({
-                type: 'post',
-                url: '/playlists',
-                data: {}
-            })
-        }
-    })
 }
 
 //-------------------------------------------------------------------------------------------------------------
@@ -115,4 +87,16 @@ function player (id, option) {
     })
 }
 
+// shows input box to type option
+
+function write_option (option, show) {
+    document.getElementById('error').innerHTML = '';
+    var el = document.getElementById("writtenoption");
+    if (show) {
+        el.style.visibility = 'visible';
+        el.placeholder = 'Enter ' + option;
+    } else {
+        el.style.visibility = 'hidden';
+    }
+}
 

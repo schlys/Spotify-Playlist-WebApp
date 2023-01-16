@@ -19,11 +19,11 @@ SCOPE = 'user-read-private user-read-email user-read-playback-state user-modify-
 TOKEN_DATA = []
 
 PLAYLIST_OPTIONS = {
-    'curr_track': p.currTrackPlaylist,
-    'track': p.trackPlaylist,
+    'curr': p.currTrackPlaylist,
+    'song': p.trackPlaylist,
     'genre': p.genrePlaylist,
     'artist': p.artistPlaylist,
-    'random': p.randomPlaylist
+    'rand': p.randomPlaylist
 }
 
 def getUser():
