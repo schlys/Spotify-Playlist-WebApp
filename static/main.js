@@ -36,7 +36,7 @@ function playlist() {
         text = written.value;
     }
 
-    if (parseInt(size) >= 20 || parseInt(size) <= 200) {
+    if (parseInt(size.value) >= 20 && parseInt(size.value) <= 200) {
         $.ajax({
             type: "post",
             url: "/make_playlist",
