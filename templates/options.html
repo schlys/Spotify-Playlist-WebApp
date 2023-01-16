@@ -46,15 +46,21 @@
                     <input type="text" class="form-control" style="text-align: center; visibility: hidden;" id="writtenoption" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
                   </div>
 
-                <div class="input-group input-group-sm mb-3 written-option">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Size</span>
+                <div class="input-group input-group-sm mb-3 written-option" >
 
                     <input type="text" class="form-control" style="text-align: center;" placeholder="Enter playlist size between 20-200 tracks" id="size" aria-describedby="button-addon2">
 
                     <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="playlist()">Generate</button>
-                  </div>
+
+        
+                </div>
+                <div class="spinner-border text-light" style="visibility: hidden;" id="spinner" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+
+                <p class="display-4 error" id="error"></p>
             </div>
-            <p class="display-4 error" id="error"></p>
+            
 
             <!-- <div class="row bottom">
                 <div class="column">

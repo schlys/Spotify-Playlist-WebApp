@@ -27,6 +27,8 @@ setInterval('update_track()', 1000)
 //controls the playlist options
 
 function playlist() {
+    document.getElementById('spinner').style.visibility = 'visible';
+    document.getElementById('error').innerHTML = '';
     var option = $('input[name=choices]:checked').attr('id');
     var size = document.getElementById('size');
     var written = document.getElementById('writtenoption');
@@ -49,6 +51,8 @@ function playlist() {
                 window.location.href = response.redirect;
             },
             error: function() {
+                document.getElementById('error').innerHTML = 'Error creating playlist';
+                document.getElementById('spinner').style.visibility = 'hidden';
                 $.ajax({
                     type: 'post',
                     url: '/playlists',
@@ -57,6 +61,7 @@ function playlist() {
             }
         })
     } else {
+        document.getElementById('spinner').style.visibility = 'hidden';
         document.getElementById('error').innerHTML = 'Please enter a valid playlist size';
     }
 
