@@ -1,10 +1,33 @@
-.usage {
-    padding: 30px;
-    margin: 50px;
+.background {
+    background-color: #191b1a;
+}
+
+/* HOME PAGE --------------------------------------------- */
+
+.home-container {
+    padding-top: 10%;
+}
+
+.page-name {
+    color: white;
+    text-align: center;
+    padding-bottom: 5%;
+}
+
+.home-button {
+    border: none;
     background-color: rgb(39, 168, 84);
     color: white;
-    text-align: left
+    font-size: 160%;
+    border-radius: 25px;
+    padding: 3% 8%;
 }
+.home-button:hover {
+    background-color: rgb(30, 215, 96);
+}
+
+/*---*/
+
 .home_button {
     border: none;
     text-align: center;

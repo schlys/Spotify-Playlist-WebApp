@@ -36,8 +36,7 @@ def getUserToken(code):
 def refreshToken():
     global TOKEN_DATA
     
-    #if TOKEN_DATA:
-    if TOKEN_DATA and time.time() > TOKEN_DATA[3]:
+    if time.time() > TOKEN_DATA[3]:
         print('refreshing')
         TOKEN_DATA = api.refreshAuth(CLIENT_ID, CLIENT_SECRET)
 
