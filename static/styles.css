@@ -58,15 +58,13 @@
 }
 
 .written-option {
-    padding-top: 3%;
+    margin-top: -5%;
     padding-left: 10%;
     padding-right: 10%;
 }
 
 .top {
     position: fixed;
-    width: 100%;
-    top: 3%;
 }
 .logout {
     float: left;
@@ -84,18 +82,18 @@
 div.bottom {
     position: fixed;
     width: 100%;
-    bottom: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    border-top: 3px solid black;
-    padding-top: 2px;
+    margin-top: 5%;
 }
-img.track_pic {
-    border-radius: 10%;
-    border: 2px solid rgb(182, 182, 182);
+img.cover {
+    display: none;
+    width: 60px;
+    height: 60px;
+    margin-left: 3%;
 }
 a.track_link {
     text-decoration: none;
-    color: black;
+    font-size: 100%;
+    color: white;
 }
 a.track_link:hover {
     text-decoration: underline;         
@@ -104,19 +102,11 @@ a.track_link:hover {
     width: 50%;
     float: left;
 }
-.row::after {
-    content: "";
-    display: table;
-    clear: both;
-}
 .button {
-    border: none;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
-    float: right;
-    margin-top: 20px;
-    margin-right: 20px;
+    margin-top: 2%;
+    margin-right: 2%;
 }
 .button:hover {
     opacity: 0.7;

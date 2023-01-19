@@ -13,10 +13,12 @@ function update_track() {
                 document.getElementById("artists").innerHTML = data.artists + " 🎶 " + data.album
                 document.getElementById("link").href = data.link
                 button.name = "pause";
-                button.src = "https://cdn3.iconfinder.com/data/icons/line/36/pause-256.png";
+                // button.src = "https://cdn3.iconfinder.com/data/icons/line/36/pause-256.png";
+                button.src = `${window.pause}`;
             } else {
                 button.name = "play";
-                button.src = "https://cdn3.iconfinder.com/data/icons/line/36/play-256.png";
+                // button.src = "https://cdn3.iconfinder.com/data/icons/line/36/play-256.png";
+                button.src = `${window.play}`;
             }
         }
     );
