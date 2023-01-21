@@ -8,24 +8,24 @@ function onload() {
             var type = display.type
             var top = document.getElementById('descrip')
 
-            if (type === 'text') {
-                top.innerHTML = `Playlist based on ${display.text}`
-            } else if (type === 'track') {
-                top.innerHTML = `
-                    <span style="float: left">Playlist based on</span>
-                    <img id="cover" class="track_pic" src="${display.image}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
-                    <p>
-                        <strong>${display.name}</strong><br>
-                        <span>${display.artists}</span>
-                    </p>
-                `
-            } else {
-                top.innerHTML = `
-                    <span style="float: left">Playlist based on</span>
-                    <img id="cover" class="track_pic" src="${display.image}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
-                    <p><strong>${display.name}</strong></p>
-                `
-            }
+            // if (type === 'text') {
+            //     top.innerHTML = `Playlist based on ${display.text}`
+            // } else if (type === 'track') {
+            //     top.innerHTML = `
+            //         <span style="float: left">Playlist based on</span>
+            //         <img id="cover" class="track_pic" src="${display.image}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
+            //         <p>
+            //             <strong>${display.name}</strong><br>
+            //             <span>${display.artists}</span>
+            //         </p>
+            //     `
+            // } else {
+            //     top.innerHTML = `
+            //         <span style="float: left">Playlist based on</span>
+            //         <img id="cover" class="track_pic" src="${display.image}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
+            //         <p><strong>${display.name}</strong></p>
+            //     `
+            // }
 
             for (let i=0; i<data.playlist.tracks.length; i++) {
                 var track = data.playlist.tracks[i].track
@@ -33,7 +33,6 @@ function onload() {
                 const div = document.createElement('div')
                 div.className = 'list'
                 div.innerHTML = `
-                    <span style="float: left">${i+1}.</span>
                     <img class="track_pic" src="${track.image}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
                     <p>
                         <a href="${track.link}" target="_blank" class="track_link"><strong>${track.name}</strong><br></a>
@@ -56,7 +55,7 @@ function add() {
         url: "/add_playlist",
         data: {},
         success: function() {
-            document.getElementById('success').innerHTML = '<strong style="color:green">Playlist Added to Spotify</strong>'
+            document.getElementById('add').innerHTML = '<p class="display-4 added">Playlist Added to Spotify</p>'
         }
     })
 }

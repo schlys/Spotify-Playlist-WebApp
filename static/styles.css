@@ -22,7 +22,7 @@
     border-radius: 25px;
     padding: 3% 8%;
 }
-.home-btn:hover, .options-btn:hover, .logout:hover{
+.home-btn:hover, .options-btn:hover, .logout:hover, .add-btn:hover{
     background-color: rgb(30, 215, 96) !important;
 }
 .home-btn:focus, .home-btn:active{
@@ -112,71 +112,48 @@ a.track_link:hover {
     opacity: 0.7;
 }
 
+/*----------------------------------------------------*/
 
-.middle {
+.added {
+    color: rgb(39, 168, 84);
     text-align: center;
-    margin-top: 150px;
+    font-size: 130%;
 }
-.in {
-    /* background-color:rgb(39, 168, 84); */
-    background-color: black;
-    margin-bottom: 10px;
-    margin-left: 10px;
-    border-radius: 40px;
-    font-family: Arial, Helvetica, sans-serif;
-    color: white;
+
+.another {
+    margin-left: 1%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.add {
+    float: right;
+    margin-right: 45%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.add-btn {
+    background-color: rgb(39, 168, 84);
     border: none;
-    font-size: 20px;
-    padding: 10px 75px;
-    text-align: left;
-    outline: none;
-    display: inline-block;
-}
-::placeholder {
-    color: white;
-    text-align: center;
-}
-.choice {
-    padding: 0%;
-    width: 395px;
-    height: 40px;
-    text-align: center;
-}
-.choice:hover {
-    cursor: pointer;
-    background-color: rgb(30, 215, 96);
 }
 
-div.list {
-    border-bottom: 1px solid black;
+.list {
+    /* border-bottom: 1px solid black; */
     width: 70%;
     margin-left: 5%;
     margin-right: 15%;
     padding-bottom: 2px;
 }
-div.list_top {
+.list_top {
     position: fixed;
     top: 0px;
-    border-bottom: 3px solid black;
-    background-color: white;
+    border-bottom: 3px solid white;
+    color: white;
+    margin-left: -8px;
     width: 100%;
 }
-.playlist_button {
-    float: left;
-    margin-left: 35%;
-    margin-top: 15px;
-    cursor: pointer;
-    border-radius: 10px;
-    text-align: center;
-    padding: 10px 15px;
-    color: white;
-    background-color: black;
-    border: none;
-    font-size: 15px;
-}
-.playlist_button:hover {
-    background-color: rgb(30, 215, 96);
-}
+
 
 .status {
     font-size: 30px;
