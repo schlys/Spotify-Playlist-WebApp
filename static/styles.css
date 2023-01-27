@@ -82,7 +82,7 @@
 div.bottom {
     position: fixed;
     width: 100%;
-    margin-top: 5%;
+    bottom: 2%;
 }
 img.cover {
     display: none;
@@ -139,7 +139,6 @@ a.track_link:hover {
 }
 
 .list {
-    /* border-bottom: 1px solid black; */
     width: 70%;
     margin-left: 5%;
     margin-right: 15%;
@@ -154,7 +153,3 @@ a.track_link:hover {
     width: 100%;
 }
 
-
-.status {
-    font-size: 30px;
-}
