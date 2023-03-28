@@ -1,4 +1,4 @@
-import requests, base64, json, math, random, spotifyAPI
+import math, random, playlist_gen.spotifyAPI as spotifyAPI
 from random_word import RandomWords
 r = RandomWords()
 
