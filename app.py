@@ -1,7 +1,20 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for
-import playlist_gen.controller as controller, flask
+from flask import Flask, render_template, request, redirect, jsonify, url_for, session
+from functools import wraps
+import playlist_gen.controller as controller, secrets
 
 app = Flask(__name__)
+app.secret_key = secrets.token_bytes(32)
+
+# Decorators
+def login_required(f):
+  @wraps(f)
+  def wrap(*args, **kwargs):
+    if 'logged_in' in session:
+      return f(*args, **kwargs)
+    else:
+      return redirect(url_for('home'))
+  return wrap
+
 
 @app.route('/', methods=['POST', 'GET'])
 def home():
@@ -13,34 +26,27 @@ def home():
 
 
 
-@app.route('/callback/', methods=['POST', 'GET'])
+@app.route('/callback', methods=['POST', 'GET'])
 def options():
-    if 'error' in request.args:
-        return redirect(flask.url_for('home'))
+    if 'error' in request.args or 'code' not in request.args:
+        return redirect(url_for('home'))
 
     controller.getUserToken(request.args['code'])
-    return redirect(flask.url_for('playlists'))
+    return redirect(url_for('playlists'))
 
 
-@app.route('/update/', methods=['POST', 'GET'])
+@app.route('/update', methods=['POST', 'GET'])
 def update():
     controller.refreshToken()
 
     track = controller.getCurrentTrack()
     if track:
-        return jsonify(none='0',
-            link=track['link'],
-            name=track['name'],
-            artists=track['artists'],
-            image=track['image'],
-            album=track['album'],
-            playing=track['playing']
-            )
-    return jsonify(none='1')
+        return {'none': '0', 'track_data': track}
+    return {'none': '1'}
 
 
 
-@app.route('/player/', methods=['POST', 'GET'])
+@app.route('/player', methods=['POST', 'GET'])
 def player():
     controller.refreshToken()
     print(request.form.get('option') + '-----------------------')
@@ -49,7 +55,7 @@ def player():
 
 
 
-@app.route('/playlists/', methods=['POST', 'GET'])
+@app.route('/playlists', methods=['POST', 'GET'])
 def playlists():
     controller.refreshToken()
     controller.clearList()
@@ -61,30 +67,30 @@ def playlists():
 
 
 
-@app.route('/make_playlist/', methods=['POST', 'GET'])
+@app.route('/make_playlist', methods=['POST', 'GET'])
 def make_playlist():
     controller.refreshToken()
 
-    size = int(request.form.get('size'))
-    option = str(request.form.get('option'))
-    text = request.form.get('text')
+    size = int(request.json.get('size'))
+    option = str(request.json.get('option'))
+    text = request.json.get('text')
 
     print(f'playlist size: {size}')
     print(f'playlist option: {option}')
     print(f'text: {text}')
 
     controller.makePlaylist(size, option, text)
-    return jsonify({'redirect': url_for('results')})
+    return redirect(url_for('results'))
  
 
 
-@app.route('/results/', methods=['POST', 'GET'])
+@app.route('/results', methods=['POST', 'GET'])
 def results():
     return render_template('results.html')
 
 
 
-@app.route('/get_playlist/', methods=['POST', 'GET'])
+@app.route('/get_playlist', methods=['POST', 'GET'])
 def get_playlist():
     controller.refreshToken()
     js, name = controller.getList()
@@ -92,7 +98,7 @@ def get_playlist():
 
 
 
-@app.route('/add_playlist/', methods=['POST', 'GET'])
+@app.route('/add_playlist', methods=['POST', 'GET'])
 def add_playlist():
     controller.refreshToken()
     controller.addList()

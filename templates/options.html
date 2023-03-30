@@ -47,7 +47,7 @@
             <div class="spinner-border text-light" style="visibility: hidden;" id="spinner" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-
+            <br><br>
             <p class="display-4 error" id="error"></p>
         </div>
         
@@ -72,5 +72,6 @@
         window.pause = "{{ url_for('static', filename='pngs/pause.png') }}";
         window.play = "{{ url_for('static', filename='pngs/play.png') }}";
     </script>
+    <script src="{{url_for('static', filename='main.js')}}"></script>
 
 {% endblock %}
