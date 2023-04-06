@@ -113,17 +113,15 @@ a.track_link:hover {
 }
 
 /*----------------------------------------------------*/
+.navbar {
+    background-color: #191b1a;
+    border-bottom: 3px solid white;
+}
 
 .added {
     color: rgb(39, 168, 84);
     text-align: center;
     font-size: 130%;
-}
-
-.another {
-    margin-left: 1%;
-    margin-top: 1%;
-    margin-bottom: 1%;
 }
 
 .add {
@@ -144,12 +142,5 @@ a.track_link:hover {
     margin-right: 15%;
     padding-bottom: 2px;
 }
-.list_top {
-    position: fixed;
-    top: 0px;
-    border-bottom: 3px solid white;
-    color: white;
-    margin-left: -8px;
-    width: 100%;
-}
+
 
