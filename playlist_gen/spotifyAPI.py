@@ -62,7 +62,7 @@ def handleToken(response):
 
 def getCurrTrack(head):
     response = requests.get('https://api.spotify.com/v1/me/player?market=US', headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         artists = resp_json['item']['artists']
         artists_name = ', '.join([artist['name'] for artist in artists])
@@ -90,7 +90,7 @@ def getCurrTrack(head):
 
 def getTrackOrArtist(text, head, kind):
     response = requests.get(f"https://api.spotify.com/v1/search?q={text}&type={kind}&market=US", headers=head)
-    if response.status_code == 200:
+    if response.ok:
         info = {}
         resp_json = response.json()
         if kind == 'track' and len(resp_json['tracks']['items']) > 0:
@@ -122,7 +122,7 @@ def getTrackOrArtist(text, head, kind):
 
 def searchGenre(genre, head, kind):
     response = requests.get(f"https://api.spotify.com/v1/search?q=genre%3A{genre}&type={kind}&market=US&limit=50", headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         if kind == 'track':
             return resp_json['tracks']['items']
@@ -132,7 +132,7 @@ def searchGenre(genre, head, kind):
 
 def getArtists(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         info = {
             'genres': resp_json['genres'],
@@ -146,35 +146,35 @@ def getRecommendedTracks(artists, genres, tracks, max_pop, min_pop, head):
         genres = [genres[0], genres[1], genres[2]]
     genres_string = ','.join(genres)
     response = requests.get(f"https://api.spotify.com/v1/recommendations?limit=100&market=US&seed_artists={artists}&seed_genres={genres_string}&seed_tracks={tracks}&max_popularity={max_pop}&min_popularity={min_pop}", headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         return resp_json['tracks']
     return None
 
 def getAlbums(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/albums?include_groups=album,single&market=US&limit=25", headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         return resp_json['items']
     return None
 
 def getAlbumTracks(album_id, head):
     response = requests.get(f"https://api.spotify.com/v1/albums/{album_id}/tracks?market=US", headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         return resp_json['items']
     return None
 
 def getRelatedArtists(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/related-artists", headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         return resp_json['artists']
     return None
 
 def getPopTracks(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market=US", headers = head)
-    if response.status_code == 200:
+    if response.ok:
         resp_json = response.json()
         return resp_json['tracks']
     return None

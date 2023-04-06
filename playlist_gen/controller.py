@@ -1,5 +1,5 @@
-import spotifyAPI as api
-import playlists as p
+import playlist_gen.spotifyAPI as api
+import playlist_gen.playlists as p
 import os, time
 
 #Add your client ID

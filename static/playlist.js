@@ -1,6 +1,6 @@
 //------------------------------------------------------------------------------------------------------------------------------------------------------
-// generates the playlist on the results screen
 
+// generates the playlist on the results screen
 function onload() {
     $.getJSON("/get_playlist",
         function(data) {
@@ -47,15 +47,12 @@ function onload() {
 window.addEventListener("load", onload, false)
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------
-// calls the function to add playlist to spotify
 
+// calls the function to add playlist to spotify
 function add() {
-    $.ajax ({
-        type: "post",
-        url: "/add_playlist",
-        data: {},
-        success: function() {
-            document.getElementById('add').innerHTML = '<p class="display-4 added">Playlist Added to Spotify</p>'
-        }
+    fetch('/add_playlist', {
+        method: 'POST'
+    }).then(response => {
+        if (response.ok) document.getElementById('add').innerHTML = '<p class="display-4 added">Playlist Added to Spotify</p>';
     })
 }
