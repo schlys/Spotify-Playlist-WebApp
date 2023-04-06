@@ -112,26 +112,26 @@ a.track_link:hover {
     opacity: 0.7;
 }
 
-/*----------------------------------------------------*/
-.navbar {
+/*-------------------- results --------------------------------*/
+.top {
     background-color: #191b1a;
     border-bottom: 3px solid white;
+    position: fixed;
+    width: 100%;
 }
 
 .added {
     color: rgb(39, 168, 84);
-    text-align: center;
     font-size: 130%;
 }
 
 .add {
-    /* float: right;
-    margin-right: 45%; */
-    margin-top: 1%;
-    margin-bottom: 1%;
+    text-align: center;
 }
 
-.add-btn {
+.res-btn {
+    margin-top: 1%;
+    margin-bottom: 1%;
     background-color: rgb(39, 168, 84);
     border: none;
 }
@@ -140,24 +140,29 @@ a.track_link:hover {
     color: white;
     padding-left: 5%;
     padding-right: 5%;
-    padding-top: 10%;
+    padding-top: 15%;
 }
 
-/* @media (min-width: 750px) {
-    .add {
-       
-        margin-top: 1%;
-        margin-bottom: 1%;
-    }
-} */
-
-@media (max-width: 576px) {
+@media (max-width: 440px) {
     .results {
         color: white;
         padding-left: 5%;
         padding-right: 5%;
         padding-top: 30%;
     }
+    .add {
+        text-align: left;
+    }
 }
+
+@media (max-width: 400px) {
+    .results {
+        color: white;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 50%;
+    }
+}
+
 
 

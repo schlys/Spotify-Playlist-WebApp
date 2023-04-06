@@ -2,16 +2,16 @@
 
 {% block content %}
 
-    <nav class="navbar fixed-top">
+    <div class="top">
         <div class="container-fluid">
             <form action="{{ url_for('playlists') }}" method="GET">
-                <button class="btn btn-primary btn-lg logout">Make Another</button>
+                <button class="btn btn-primary btn-lg logout res-btn">Make Another</button>
             </form>
-            <!-- <div> -->
-                <button class="btn add-btn btn-lg btn-primary" onclick="add()">Add Playlist to Spotify</button>
-            <!-- </div> -->
+            <div id="add" class="add">
+                <button class="btn res-btn btn-lg btn-primary" onclick="add()">Add Playlist to Spotify</button>
+            </div>
         </div>
-    </nav>
+    </div>
 
     <div class="container results">
 
