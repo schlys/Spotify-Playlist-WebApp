@@ -2,11 +2,11 @@ import math, random, playlist_gen.spotifyAPI as spotifyAPI
 from random_word import RandomWords
 r = RandomWords()
 
-PLAYLIST = []
-PLAYLIST_URIS = []
-NAME = {}
 
-def playlistHelper(size, head, track_id, artist_id, rec_mult, artist_mult):
+def playlist_helper(size, head, track_id, artist_id, rec_mult, artist_mult):
+    playlist = []
+    playlist_uris = []
+
     artist = spotifyAPI.getArtists(artist_id, head)
     genres = artist['genres']
 
@@ -26,7 +26,7 @@ def playlistHelper(size, head, track_id, artist_id, rec_mult, artist_mult):
     i = 0
     j = 0
     count = 1
-    while len(PLAYLIST_URIS) < size:
+    while len(playlist_uris) < size:
         track = ''
         image = ''
         not_in = True
@@ -40,7 +40,7 @@ def playlistHelper(size, head, track_id, artist_id, rec_mult, artist_mult):
                 album = albums[random.randint(0, len(albums) - 1)]
                 album_tracks = spotifyAPI.getAlbumTracks(album['id'], head)
                 track = album_tracks[random.randint(0, len(album_tracks) - 1)]
-                not_in = track['uri'] not in PLAYLIST_URIS
+                not_in = track['uri'] not in playlist_uris
                 image = album['images'][0]['url']
                 j += 1
         else:
@@ -48,15 +48,20 @@ def playlistHelper(size, head, track_id, artist_id, rec_mult, artist_mult):
                 rel_artist = related_artists[random.randint(0, len(related_artists) - 1)]
                 top_tracks = spotifyAPI.getPopTracks(rel_artist['id'], head)
                 track = top_tracks[random.randint(0, len(top_tracks) - 1)]
-                not_in = track['uri'] not in PLAYLIST_URIS
+                not_in = track['uri'] not in playlist_uris
                 image = track['album']['images'][0]['url']
         if not_in:
-            addToPlaylist(track, count, image)
+            add_to_playlist(track, count, image, playlist, playlist_uris)
             count +=1
+    return playlist, playlist_uris
 
-def genrePlaylist(size, head, genre):
-    global NAME
-    NAME = {'type': 'text', 'text': genre}
+
+
+def genre_playlist(size, head, genre):
+    playlist = []
+    playlist_uris = []
+
+    display = {'type': 'text', 'text': genre}
     tracks = spotifyAPI.searchGenre(genre, head, 'track')
     artists = spotifyAPI.searchGenre(genre, head, 'artist')
     random.shuffle(tracks)
@@ -66,7 +71,7 @@ def genrePlaylist(size, head, genre):
     if tracks and artists:
         i = 0
         count = 1
-        while len(PLAYLIST_URIS) < size:
+        while len(playlist_uris) < size:
             track = ''
             not_in = True
 
@@ -78,56 +83,66 @@ def genrePlaylist(size, head, genre):
                 top_tracks = spotifyAPI.getPopTracks(artist['id'], head)
                 track = top_tracks[random.randint(0, len(top_tracks) - 1)]
 
-            not_in = track['uri'] not in PLAYLIST_URIS
+            not_in = track['uri'] not in playlist_uris
             image = track['album']['images'][0]['url']
 
             if not_in:
-                addToPlaylist(track, count, image)
+                add_to_playlist(track, count, image)
                 count += 1
+    return to_json(display, playlist, playlist_uris)
 
-def currTrackPlaylist(size, head, text):
-    global NAME
+
+
+def curr_track_playlist(size, head, text):
     track = spotifyAPI.getCurrTrack(head)
-    NAME = {
+    display = {
             'type': 'track', 
             'name': track['name'], 
             'artists': track['artists'], 
             'image': track['image'],
             'text': track['name']
         }
-    playlistHelper(size, head, track['id'], track['artist_id'], .7, .05)
+    playlist, playlist_uris = playlist_helper(size, head, track['id'], track['artist_id'], .7, .05)
+    return to_json(display, playlist, playlist_uris)
 
-def artistPlaylist(size, head, text):
-    global NAME
+
+
+def artist_playlist(size, head, text):
     artist = spotifyAPI.getTrackOrArtist(text, head, 'artist')
     top_tracks = spotifyAPI.getPopTracks(artist['id'], head)
     track_id = top_tracks[random.randint(0, len(top_tracks) - 1)]['id']
-    NAME = {
+    display = {
             'type': 'artist', 
             'name': artist['name'], 
             'image': artist['image'],
             'text': artist['name']
         }
-    playlistHelper(size, head, track_id, artist['id'], .4, .3)
+    playlist, playlist_uris = playlist_helper(size, head, track_id, artist['id'], .4, .3)
+    return to_json(display, playlist, playlist_uris)
 
-def trackPlaylist(size, head, text):
-    global NAME
+
+
+def track_playlist(size, head, text):
     track = spotifyAPI.getTrackOrArtist(text, head, 'track')
-    NAME = {
+    display = {
             'type': 'track', 
             'name': track['name'], 
             'artists': track['artists'], 
             'image': track['image'],
             'text': track['name']
         }
-    playlistHelper(size, head, track['id'], track['artist_id'], .7, .05)
+    playlist, playlist_uris = playlist_helper(size, head, track['id'], track['artist_id'], .7, .05)
+    return to_json(display, playlist, playlist_uris)
 
-def randomPlaylist(size, head, text):
-    global NAME
+
+
+def random_playlist(size, head, text):
+    playlist = []
+    playlist_uris = []
     words = []
     count = 1
 
-    while len(PLAYLIST_URIS) < size:
+    while len(playlist_uris) < size:
         word = r.get_random_word(hasDictionaryDef='true', includePartOfSpeech='noun,verb', minCorpusCount=5)
         print(f"Random word is {word}")
         word_track = spotifyAPI.getTrackOrArtist(word, head, 'track')
@@ -139,33 +154,34 @@ def randomPlaylist(size, head, text):
             if rec_tracks and len(rec_tracks) > 0:
                 words.append(word)
                 i=0
-                while i < math.floor(size * .25) and len(PLAYLIST_URIS) < size and i < len(rec_tracks):
+                while i < math.floor(size * .25) and len(playlist_uris) < size and i < len(rec_tracks):
                     track = rec_tracks[i]
                     image = track['album']['images'][0]['url']
-                    not_in = track['uri'] not in PLAYLIST_URIS
+                    not_in = track['uri'] not in playlist_uris
                     if not_in:
-                        addToPlaylist(track, count, image)
+                        add_to_playlist(track, count, image)
                         count += 1
                     i +=1
-    NAME = {'type': 'text', 'text': ', '.join(words)}
+    display = {'type': 'text', 'text': ', '.join(words)}
+    return to_json(display, playlist, playlist_uris)
 
-def getPlaylist():
-    return PLAYLIST, NAME
 
-def playlistReset():
-    PLAYLIST.clear() 
-    PLAYLIST_URIS.clear()
-    NAME.clear()
 
-def addToSpotify(head):
-    spotifyAPI.makePlaylist(NAME['text'], PLAYLIST_URIS, head)
+def to_json(display, playlist, uris):
+    return {
+        'display': display,
+        'tracks': playlist,
+        'uris': uris
+    }
 
-def addToPlaylist(track, count, image):
-    PLAYLIST_URIS.append(track['uri'])
+
+
+def add_to_playlist(track, count, image, playlist, playlist_uris):
+    playlist_uris.append(track['uri'])
     artist_list = track['artists']
     artists_name = ', '.join([artist['name'] for artist in artist_list])
 
-    PLAYLIST.append({
+    playlist.append({
         'name': track['name'],
         'artists': artists_name,
         'image': image,

@@ -151,16 +151,19 @@ a.track_link:hover {
         padding-top: 30%;
     }
     .add {
-        text-align: left;
+        text-align: right;
     }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 424px) {
     .results {
         color: white;
         padding-left: 5%;
         padding-right: 5%;
         padding-top: 50%;
+    }
+    .add {
+        text-align: left;
     }
 }
 

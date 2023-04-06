@@ -1,4 +1,9 @@
-import base64, json, requests, time
+import base64, json, requests, time, os
+
+CLIENT_ID = os.environ.get('CLIENT_ID')
+CLIENT_SECRET = os.environ.get('CLIENT_SECRET')
+CALLBACK_URL = os.environ.get('CALLBACK_URL')
+SCOPE = 'user-read-private user-read-email user-read-playback-state user-modify-playback-state playlist-modify-public playlist-modify-private'
 
 SPOTIFY_URL_AUTH = 'https://accounts.spotify.com/authorize?'
 SPOTIFY_URL_TOKEN = 'https://accounts.spotify.com/api/token'
@@ -11,41 +16,31 @@ PLAYER_URLS = ['https://api.spotify.com/v1/me/player/next',
                 'https://api.spotify.com/v1/me/player/play'
             ]
 
-def getAuth(client_id, redirect_uri, scope):
-    data = f"{SPOTIFY_URL_AUTH}client_id={client_id}&response_type=code&redirect_uri={redirect_uri}&scope={scope}&show_dialog=true"
+def getAuth():
+    data = f"{SPOTIFY_URL_AUTH}client_id={CLIENT_ID}&response_type=code&redirect_uri={CALLBACK_URL}&scope={SCOPE}&show_dialog=true"
     return data
 
-def getToken(code, client_id, client_secret, redirect_uri):
+
+def getToken(code):
     body = {
         'grant_type': 'authorization_code',
         'code' : code,
-        'redirect_uri': redirect_uri
+        'redirect_uri': CALLBACK_URL
     }
-
-    headers = getAuthHeaders(client_id, client_secret)
-
+    headers = getAuthHeaders()
     post = requests.post(SPOTIFY_URL_TOKEN, params=body, headers=headers)
 
     return handleToken(json.loads(post.text))
 
-def refreshAuth(client_id, client_secret):
+
+def refreshAuth():
     body = {
         "grant_type" : "refresh_token",
         "refresh_token" : REFRESH_TOKEN
     }
-
-    post_refresh = requests.post(SPOTIFY_URL_TOKEN, data=body, headers=getAuthHeaders(client_id, client_secret))
-   
+    post_refresh = requests.post(SPOTIFY_URL_TOKEN, data=body, headers=getAuthHeaders())
     return handleToken(json.loads(post_refresh.text))
 
-def getAuthHeaders(client_id, client_secret):
-    client_creds = f"{client_id}:{client_secret}"
-    client_creds_b64 = base64.b64encode(client_creds.encode())
-
-    return {
-        'Content-Type' : HEADER,
-        'Authorization' : f"Basic {client_creds_b64.decode()}"
-    }
 
 def handleToken(response):
     global REFRESH_TOKEN
@@ -54,11 +49,24 @@ def handleToken(response):
             'Content-Type': 'application/json',
             'Authorization': "Bearer {}".format(response['access_token'])
         }
-    
     if 'refresh_token' in response:
         REFRESH_TOKEN = response['refresh_token']
-    
+
+    return {
+        'auth_head': auth_head,
+        'expiration': response['expires_in'] + time.time()
+    }
     return [response['access_token'], auth_head, response['scope'], response['expires_in'] + time.time()]
+
+
+def getAuthHeaders():
+    client_creds = f"{CLIENT_ID}:{CLIENT_SECRET}"
+    client_creds_b64 = base64.b64encode(client_creds.encode())
+    return {
+        'Content-Type' : HEADER,
+        'Authorization' : f"Basic {client_creds_b64.decode()}"
+    }
+
 
 def getCurrTrack(head):
     response = requests.get('https://api.spotify.com/v1/me/player?market=US', headers = head)
@@ -87,6 +95,8 @@ def getCurrTrack(head):
         }
         return info
     return None
+
+
 
 def getTrackOrArtist(text, head, kind):
     response = requests.get(f"https://api.spotify.com/v1/search?q={text}&type={kind}&market=US", headers=head)
@@ -120,6 +130,8 @@ def getTrackOrArtist(text, head, kind):
         return info
     return None
 
+
+
 def searchGenre(genre, head, kind):
     response = requests.get(f"https://api.spotify.com/v1/search?q=genre%3A{genre}&type={kind}&market=US&limit=50", headers = head)
     if response.ok:
@@ -129,6 +141,8 @@ def searchGenre(genre, head, kind):
         else:
             return resp_json['artists']['items']
     return None
+
+
 
 def getArtists(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}", headers = head)
@@ -141,6 +155,8 @@ def getArtists(artist_id, head):
         return info
     return None
 
+
+
 def getRecommendedTracks(artists, genres, tracks, max_pop, min_pop, head):
     if len(genres) > 3:
         genres = [genres[0], genres[1], genres[2]]
@@ -151,12 +167,16 @@ def getRecommendedTracks(artists, genres, tracks, max_pop, min_pop, head):
         return resp_json['tracks']
     return None
 
+
+
 def getAlbums(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/albums?include_groups=album,single&market=US&limit=25", headers = head)
     if response.ok:
         resp_json = response.json()
         return resp_json['items']
     return None
+
+
 
 def getAlbumTracks(album_id, head):
     response = requests.get(f"https://api.spotify.com/v1/albums/{album_id}/tracks?market=US", headers = head)
@@ -165,12 +185,16 @@ def getAlbumTracks(album_id, head):
         return resp_json['items']
     return None
 
+
+
 def getRelatedArtists(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/related-artists", headers = head)
     if response.ok:
         resp_json = response.json()
         return resp_json['artists']
     return None
+
+
 
 def getPopTracks(artist_id, head):
     response = requests.get(f"https://api.spotify.com/v1/artists/{artist_id}/top-tracks?market=US", headers = head)
@@ -180,11 +204,14 @@ def getPopTracks(artist_id, head):
     return None
 
 
+
 def player(option, head):
     if option < 2:
         requests.post(PLAYER_URLS[option], headers = head)
     else:
         requests.put(PLAYER_URLS[option], headers = head)
+
+
 
 def makePlaylist(name, track_uris, head):
     user_resp = requests.get("https://api.spotify.com/v1/me", headers = head)
