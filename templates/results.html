@@ -2,20 +2,46 @@
 
 {% block content %}
 
-    <div class="container-fluid">
-        <div class="list_top background">
+    <div class="top">
+        <div class="container-fluid">
             <form action="{{ url_for('playlists') }}" method="GET">
-                <button class="btn btn-primary btn-lg logout another">Make Another</button>
+                <button class="btn btn-primary btn-lg logout res-btn">Make Another</button>
             </form>
             <div id="add" class="add">
-                
-                <button class="btn btn-primary btn-lg add-btn" onclick="add()">Add Playlist to Spotify</button>
+                <button class="btn res-btn btn-lg btn-primary" onclick="add()">Add Playlist to Spotify</button>
             </div>
         </div>
+    </div>
 
-        <div style="margin-top: 10%">
-            <div id="playlist" style="color: white;"></div>
-        </div>
+    <div class="container results">
+
+        {% if items.display.type == 'text' %}
+            Playlist based on {{ items.display.text }}
+        {% elif items.display.type == 'track' %}
+                <span style="float: left">Playlist based on</span>
+                <img id="cover" class="track_pic" src="{{items.display.image}}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
+                <p>
+                    <strong>{{items.display.name}}</strong><br>
+                    <span>{{items.display.artists}}</span>
+                </p>
+        {% else %}
+                <span style="float: left">Playlist based on</span>
+                <img id="cover" class="track_pic" src="{{items.display.image}}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
+                <p><strong>{{items.display.name}}</strong></p>
+        {% endif %}
+
+        <br><br>
+
+        {% for track in items.playlist %}
+            <div>
+                <img class="track_pic" src="{{track.image}}" alt="cover" hspace="10px" style="float: left;width:50px;height:50px;">
+                <p>
+                    <a href="{{track.link}}" target="_blank" class="display-4 track_link"><strong>${{track.name}}</strong><br></a>
+                    <span class="display-4" style="font-size:80%">{{track.artists}}</span>
+                </p>
+            
+            </div>
+        {% endfor %}
     </div>
     <script src="{{url_for('static', filename='playlist.js')}}"></script>
     

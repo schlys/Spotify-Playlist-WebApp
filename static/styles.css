@@ -112,44 +112,57 @@ a.track_link:hover {
     opacity: 0.7;
 }
 
-/*----------------------------------------------------*/
+/*-------------------- results --------------------------------*/
+.top {
+    background-color: #191b1a;
+    border-bottom: 3px solid white;
+    position: fixed;
+    width: 100%;
+}
 
 .added {
     color: rgb(39, 168, 84);
-    text-align: center;
     font-size: 130%;
 }
 
-.another {
-    margin-left: 1%;
-    margin-top: 1%;
-    margin-bottom: 1%;
-}
-
 .add {
-    float: right;
-    margin-right: 45%;
-    margin-top: 1%;
-    margin-bottom: 1%;
+    text-align: center;
 }
 
-.add-btn {
+.res-btn {
+    margin-top: 1%;
+    margin-bottom: 1%;
     background-color: rgb(39, 168, 84);
     border: none;
 }
 
-.list {
-    width: 70%;
-    margin-left: 5%;
-    margin-right: 15%;
-    padding-bottom: 2px;
-}
-.list_top {
-    position: fixed;
-    top: 0px;
-    border-bottom: 3px solid white;
+.results {
     color: white;
-    margin-left: -8px;
-    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 15%;
 }
+
+@media (max-width: 440px) {
+    .results {
+        color: white;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 30%;
+    }
+    .add {
+        text-align: left;
+    }
+}
+
+@media (max-width: 400px) {
+    .results {
+        color: white;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 50%;
+    }
+}
+
+
 

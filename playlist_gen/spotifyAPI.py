@@ -62,7 +62,7 @@ def handleToken(response):
 
 def getCurrTrack(head):
     response = requests.get('https://api.spotify.com/v1/me/player?market=US', headers = head)
-    if response.ok:
+    if response.status_code == 200:
         resp_json = response.json()
         artists = resp_json['item']['artists']
         artists_name = ', '.join([artist['name'] for artist in artists])

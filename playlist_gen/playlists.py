@@ -2,7 +2,7 @@ import math, random, playlist_gen.spotifyAPI as spotifyAPI
 from random_word import RandomWords
 r = RandomWords()
 
-PLAYLIST = {'tracks': []}
+PLAYLIST = []
 PLAYLIST_URIS = []
 NAME = {}
 
@@ -153,8 +153,7 @@ def getPlaylist():
     return PLAYLIST, NAME
 
 def playlistReset():
-    global PLAYLIST
-    PLAYLIST = {'tracks': []}
+    PLAYLIST.clear() 
     PLAYLIST_URIS.clear()
     NAME.clear()
 
@@ -166,11 +165,11 @@ def addToPlaylist(track, count, image):
     artist_list = track['artists']
     artists_name = ', '.join([artist['name'] for artist in artist_list])
 
-    PLAYLIST['tracks'].append({'track': {
+    PLAYLIST.append({
         'name': track['name'],
         'artists': artists_name,
         'image': image,
         'link': track['external_urls']['spotify']
-    }})
+    })
     print(f"{count}. {track['name']}, {artists_name}")
 
