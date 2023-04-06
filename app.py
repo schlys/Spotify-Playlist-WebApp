@@ -49,9 +49,10 @@ def update():
 @app.route('/player', methods=['POST', 'GET'])
 def player():
     controller.refreshToken()
-    print(request.form.get('option') + '-----------------------')
-    controller.playback(int(request.form.get('option')))
-    return jsonify(test='0')
+    option = request.json.get('option')
+    print(option + '-----------------------')
+    controller.playback(int(option))
+    return jsonify(test='200')
 
 
 
@@ -62,7 +63,7 @@ def playlists():
     if request.method == 'GET':
         return render_template('options.html')
     elif request.method == 'POST':
-        return jsonify(cleared='1')
+        return jsonify(cleared='200')
 
 
 
@@ -102,7 +103,7 @@ def get_playlist():
 def add_playlist():
     controller.refreshToken()
     controller.addList()
-    return jsonify(added='')
+    return jsonify(added='200')
 
 
 if __name__ == '__main__':

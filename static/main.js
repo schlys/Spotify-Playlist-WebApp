@@ -1,6 +1,6 @@
 //-------------------------------------------------------------------------------------------------------------
-//update currently playing track
 
+//update currently playing track
 function update_track() {
     fetch('/update', {
         method: 'GET',
@@ -16,7 +16,7 @@ function update_track() {
             document.getElementById("name").innerHTML = track.name
             document.getElementById("cover").style.display = "inline"
             document.getElementById("cover").src = track.image
-            document.getElementById("artists").innerHTML = track.artists + " 🎶 " + data.album
+            document.getElementById("artists").innerHTML = track.artists + " 🎶 " + track.album
             document.getElementById("link").href = track.link
             button.name = "pause";
             button.src = `${window.pause}`;
@@ -29,8 +29,8 @@ function update_track() {
 setInterval('update_track()', 1000)
 
 //----------------------------------------------------------------------------------------------------------------
-//controls the playlist options
 
+//controls the playlist options
 function playlist() {
     document.getElementById('spinner').style.visibility = 'visible';
     document.getElementById('error').innerHTML = '';
@@ -72,8 +72,8 @@ function playlist() {
 }
 
 //-------------------------------------------------------------------------------------------------------------
-//controls the player
 
+//controls the player
 function player (id, option) {
     if (id == "pause_play") {
         var button = document.getElementById("pause_play");
@@ -87,17 +87,20 @@ function player (id, option) {
                 option = "3";
             }
     }
-    $.ajax({
-        type:"post",
-        url: "/player",
-        data: {
-            option: option
-        }
+
+    fetch('/player', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            option: option,
+        })
     })
 }
 
-// shows input box to type option
 
+// shows input box to type option
 function write_option (option, show) {
     document.getElementById('error').innerHTML = '';
     var el = document.getElementById("writtenoption");
