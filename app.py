@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for, session
 from functools import wraps
-import playlist_gen.controller as controller, secrets
+import playlist_gen.controller as controller, secrets, json
 
 app = Flask(__name__)
 app.secret_key = secrets.token_bytes(32)
@@ -87,15 +87,9 @@ def make_playlist():
 
 @app.route('/results', methods=['POST', 'GET'])
 def results():
-    return render_template('results.html')
-
-
-
-@app.route('/get_playlist', methods=['POST', 'GET'])
-def get_playlist():
     controller.refreshToken()
-    js, name = controller.getList()
-    return jsonify({'playlist':js, 'display':name})
+    tracks, name = controller.getList()
+    return render_template('results.html', items={'playlist':tracks, 'display':name})
 
 
 

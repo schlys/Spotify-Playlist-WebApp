@@ -125,8 +125,8 @@ a.track_link:hover {
 }
 
 .add {
-    float: right;
-    margin-right: 45%;
+    /* float: right;
+    margin-right: 45%; */
     margin-top: 1%;
     margin-bottom: 1%;
 }
@@ -136,11 +136,28 @@ a.track_link:hover {
     border: none;
 }
 
-.list {
-    width: 70%;
-    margin-left: 5%;
-    margin-right: 15%;
-    padding-bottom: 2px;
+.results {
+    color: white;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 10%;
+}
+
+/* @media (min-width: 750px) {
+    .add {
+       
+        margin-top: 1%;
+        margin-bottom: 1%;
+    }
+} */
+
+@media (max-width: 576px) {
+    .results {
+        color: white;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 30%;
+    }
 }
 
 
