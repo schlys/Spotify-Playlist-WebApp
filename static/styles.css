@@ -143,6 +143,12 @@ a.track_link:hover {
     padding-top: 15%;
 }
 
+@media (max-width: 505px) {
+    .logout{
+        visibility: hidden;
+    }
+}
+
 @media (max-width: 440px) {
     .results {
         color: white;
