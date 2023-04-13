@@ -22,7 +22,7 @@
     border-radius: 25px;
     padding: 3% 8%;
 }
-.home-btn:hover, .options-btn:hover, .logout:hover, .add-btn:hover{
+.home-btn:hover, .options-btn:hover, .logout:hover, .add-btn:hover, .back:hover{
     background-color: rgb(30, 215, 96) !important;
 }
 .home-btn:focus, .home-btn:active{
@@ -66,7 +66,7 @@
 .top {
     position: fixed;
 }
-.logout {
+.logout, .back {
     float: left;
     background-color: rgb(39, 168, 84);
     border: none;
