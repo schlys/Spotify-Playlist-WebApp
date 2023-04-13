@@ -19,6 +19,7 @@ def login_required(f):
 @app.route('/', methods=['POST', 'GET'])
 def home():
     if request.method == 'POST':
+           User().end_session()
            spotify_auth = spot_api.getAuth()
            return redirect(spotify_auth)
     return render_template('home.html')
